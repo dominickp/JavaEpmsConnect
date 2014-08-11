@@ -15,7 +15,7 @@ public class EpmsConnect {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Send SOAP Message to SOAP Server
-            String url = "http://epmsconnect.shawmutprinting.com/EnterpriseWebService/Service.asmx";
+            String url = "http://192.168.1.21/EnterpriseWebService/Service.asmx";
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(), url);
 
             // Process the SOAP Response
@@ -29,34 +29,45 @@ public class EpmsConnect {
     }
 
     private static SOAPMessage createSOAPRequest() throws Exception {
+
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
+
         SOAPPart soapPart = soapMessage.getSOAPPart();
+
+
 
         String serverURI = "http://localhost/EnterpriseWebService/Enterprise Connect/GetJobList";
 
         // SOAP Envelope
         SOAPEnvelope envelope = soapPart.getEnvelope();
-        //envelope.addNamespaceDeclaration("example", serverURI);
+        envelope.setPrefix("soap");
+        envelope.addNamespaceDeclaration("xsd", "http://www.w3.org/2001/XMLSchema");
+        envelope.addNamespaceDeclaration("xsi", "http://www.w3.org/2001/XMLSchema-instance");
 
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
+        soapBody.setPrefix("soap");
 
-        SOAPElement soapBodyElem = soapBody.addChildElement("GetJobList");
+        SOAPElement GetJobList = soapBody.addChildElement("GetJobList");
+        GetJobList.addNamespaceDeclaration("epmsConnect", "http://localhost/EnterpriseWebService/Enterprise Connect");
 
-        SOAPElement Credentials = soapBodyElem.addChildElement("Credentials");
+        //Name qname = envelope.createName("xmlns");
+        //GetJobList.addAttribute(qname, "http://localhost/EnterpriseWebService/Enterprise Connect");
+
+        SOAPElement Credentials = GetJobList.addChildElement("Credentials");
 
         SOAPElement Username = Credentials.addChildElement("Username");
         SOAPElement Password = Credentials.addChildElement("Password");
-        Username.addTextNode("");
-        Password.addTextNode("");
+        Username.addTextNode("epmsconnect");
+        Password.addTextNode("automation1");
 
 
-        SOAPElement JobType = soapBodyElem.addChildElement("JobType");
-        SOAPElement FilterType = soapBodyElem.addChildElement("FilterType");
-        SOAPElement FilterCriteria = soapBodyElem.addChildElement("FilterCriteria");
-        SOAPElement blnPriceOnLineReadyOnly = soapBodyElem.addChildElement("blnPriceOnLineReadyOnly");
-        SOAPElement lngNumberOfRecords = soapBodyElem.addChildElement("lngNumberOfRecords");
+        SOAPElement JobType = GetJobList.addChildElement("JobType");
+        SOAPElement FilterType = GetJobList.addChildElement("FilterType");
+        SOAPElement FilterCriteria = GetJobList.addChildElement("FilterCriteria");
+        SOAPElement blnPriceOnLineReadyOnly = GetJobList.addChildElement("blnPriceOnLineReadyOnly");
+        SOAPElement lngNumberOfRecords = GetJobList.addChildElement("lngNumberOfRecords");
 
         JobType.addTextNode("Order");
         FilterType.addTextNode("Customer");
