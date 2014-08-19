@@ -1,29 +1,33 @@
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
-
-        System.out.print(Main.testFunction());
 
         // Declare some variables
         String epmsUrl = "http://epmsconnect.shawmutprinting.com/EnterpriseWebService";
+        String username = "epmsconnect";
+        String password = "automation1";
+
+        // GetJobList parameters
+        String JobType = "Order";
+        String FilterType = "Customer";
+        String FilterCriteria = "SHAWMUT";
+        Boolean blnPriceOnLineReadyOnly = false;
+        int lngNumberOfRecords = 10;
+
         // Make new EpmsConnect instance
         EpmsConnect epmsConnect = new EpmsConnect();
         // Set the URL
         epmsConnect.setUrl(epmsUrl);
         // Set credentials
-        epmsConnect.setCredentials("epmsconnect", "automation1");
+        epmsConnect.setCredentials(username, password);
+        // Get GetJobList response
+        epmsConnect.getJobList(JobType, FilterType, FilterCriteria, blnPriceOnLineReadyOnly, lngNumberOfRecords);
 
-        epmsConnect.getJobList();
+        // Get the request message - for debugging
+        epmsConnect.printSOAPRequest();
 
-        epmsConnect.main(args);
+        epmsConnect.executeSoapRequest();
 
-
-    }
-
-    public static int testFunction()
-    {
-        return 5;
     }
 
 }

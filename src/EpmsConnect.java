@@ -31,10 +31,11 @@ public class EpmsConnect {
 
     }
 
-    /**
-     * Starting point for the SAAJ - SOAP Client Testing
-     */
     public void main(String args[]) {
+
+    }
+
+    public void executeSoapRequest(){
         try {
             // Create SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -54,7 +55,7 @@ public class EpmsConnect {
         }
     }
 
-    public void getJobList(){
+    public void getJobList(String uJobType, String uFilterType, String uFilterCriteria, Boolean ublnPriceOnLineReadyOnly, int ulngNumberOfRecords ){
         try {
             // Start SOAP message
             MessageFactory messageFactory = MessageFactory.newInstance();
@@ -81,38 +82,32 @@ public class EpmsConnect {
 
             // Add credentials
             SOAPElement Credentials = GetJobList.addChildElement("Credentials");
-
             SOAPElement Username = Credentials.addChildElement("Username");
             SOAPElement Password = Credentials.addChildElement("Password");
             Username.addTextNode(this.username);
             Password.addTextNode(this.password);
 
-
+            // GetJobList parameters
             SOAPElement JobType = GetJobList.addChildElement("JobType");
             SOAPElement FilterType = GetJobList.addChildElement("FilterType");
             SOAPElement FilterCriteria = GetJobList.addChildElement("FilterCriteria");
             SOAPElement blnPriceOnLineReadyOnly = GetJobList.addChildElement("blnPriceOnLineReadyOnly");
             SOAPElement lngNumberOfRecords = GetJobList.addChildElement("lngNumberOfRecords");
 
-            JobType.addTextNode("Order");
-            FilterType.addTextNode("Customer");
-            FilterCriteria.addTextNode("SHAWMUT");
-            blnPriceOnLineReadyOnly.addTextNode("false");
-            lngNumberOfRecords.addTextNode("50");
+            JobType.addTextNode(uJobType);
+            FilterType.addTextNode(uFilterType);
+            FilterCriteria.addTextNode(uFilterCriteria);
+            blnPriceOnLineReadyOnly.addTextNode(String.valueOf(ublnPriceOnLineReadyOnly));
+            lngNumberOfRecords.addTextNode(String.valueOf(ulngNumberOfRecords));
 
+            // Set some headers
             MimeHeaders headers = soapMessage.getMimeHeaders();
             headers.addHeader("SOAPAction", actionURI );
 
             soapMessage.saveChanges();
 
-            /* Print the request message */
-            System.out.print("Request SOAP Message = ");
-            soapMessage.writeTo(System.out);
-            System.out.println();
-
             // Set soapMessage
             this.soapRequest = soapMessage;
-
 
 
         } catch (Exception e) {
@@ -120,6 +115,18 @@ public class EpmsConnect {
             e.printStackTrace();
         }
 
+    }
+
+    public void printSOAPRequest(){
+        try {
+            System.out.print("Request SOAP Message = ");
+            SOAPMessage soapRequest = this.soapRequest;
+            soapRequest.writeTo(System.out);
+            System.out.println();
+        } catch (Exception e) {
+            System.err.println("Error occurred while sending SOAP Request to Server");
+            e.printStackTrace();
+        }
     }
 
     /**
