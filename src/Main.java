@@ -3,9 +3,9 @@ public class Main {
     public static void main(String[] args) {
 
         // Declare some variables
-        String epmsUrl = "http://epmsconnect.shawmutprinting.com/EnterpriseWebService";
-        String username = "epmsconnect";
-        String password = "automation1";
+        String epmsUrl = "http://192.168.x.x/EnterpriseWebService";
+        String username = "your_username";
+        String password = "your_password";
 
         // GetJobList parameters
         String JobType = "Order";

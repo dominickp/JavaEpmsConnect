@@ -1,3 +1,25 @@
+/*
+
+    Copyright (C) 2014  Dominick Peluso
+
+    Adapted from SOAP SAAJ code provided by acdcjunior here:
+    http://stackoverflow.com/questions/15940234/how-to-do-a-soap-web-service-call-from-java-class
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>
+
+ */
+
 import javax.xml.soap.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -129,9 +151,6 @@ public class EpmsConnect {
         }
     }
 
-    /**
-     * Method used to print the SOAP Response
-     */
     private static void printSOAPResponse(SOAPMessage soapResponse) throws Exception {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
