@@ -15,7 +15,7 @@ public class EpmsConnect {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Send SOAP Message to SOAP Server
-            String url = "http://192.168.1.21/EnterpriseWebService/Service.asmx";
+            String url = "http://epmsconnect.shawmutprinting.com/EnterpriseWebService/Service.asmx";
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(), url);
 
             // Process the SOAP Response
@@ -49,8 +49,8 @@ public class EpmsConnect {
         SOAPBody soapBody = envelope.getBody();
         soapBody.setPrefix("soap");
 
-        SOAPElement GetJobList = soapBody.addChildElement("GetJobList");
-        GetJobList.addNamespaceDeclaration("epmsConnect", "http://localhost/EnterpriseWebService/Enterprise Connect");
+        SOAPElement GetJobList = soapBody.addChildElement("GetJobList", "", "http://localhost/EnterpriseWebService/Enterprise Connect");
+        //GetJobList.addNamespaceDeclaration("soap", );
 
         //Name qname = envelope.createName("xmlns");
         //GetJobList.addAttribute(qname, "http://localhost/EnterpriseWebService/Enterprise Connect");
